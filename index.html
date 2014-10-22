@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Portfolio for Alex Poms</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/portfolio-item.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-default" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Alex Poms</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                    </li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header text-center">About</h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <p class="col-lg-6 col-lg-offset-3">
+                At sixteen, I taught myself how to program interactive physics simulations. In college I assisted in research computing geometry proofs under Dr. Zhendong Su, secured a competitive internship at Intel’s Graphics Software Validation group, built interactive tools in the Direct2D group at Microsoft, and led the Computer Science student organization. I turned down offers from Microsoft and LinkedIn and withdrew from UC Davis at the beginning of my 3rd year to found a startup in SF. There, I implemented current distributed systems papers on CRDTs and fell back in love with academic research. I am particularly interested in new forms of computational output and input, such as VR, AR, Computational Photography, and novel input mechanisms, and further exploration of CRDTs to allow wider use in industry systems. I am looking for a position as a research assistant or intern in a group that’s investigating these areas.
+            </p>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header text-center">Projects</h1>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <!-- Nibbol -->
+            <h1>Nibbol
+                <small>ZocDoc for Veterinarians</small>
+            </h1>
+            <!-- /.row -->
+
+            <!-- Portfolio Item Row -->
+            <div class="row">
+
+                <div class="col-md-8">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        </ol>
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" style="height: 354px">
+                            <div class="item active">
+                                <img src="images/nibbol_home.png" alt="">
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="images/nibbol_search.png" alt="">
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="images/nibbol_vet.png" alt="">
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <h3>Summary</h3>
+                    <p>
+                        Nibbol is a website that allows pet owners to find a
+                        veterinarian in their area, browse their available times,
+                        and then instantly book an appointment online. I led
+                        the engineering for the project and built the server
+                        side code and parts of the javascript frontend.
+                    </p>
+                    <p>
+                        In this expose I am going to cover the details of the
+                        CRDT based scheduling system that I built. I will give
+                        a brief summary of what a CRDT is, how it is used in
+                        the scheduling system, what the network topology is,
+                        and how the data propagates through the system.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h3>Brief on Distributed Systems & CRDTs</h3>
+                </div>
+                <div class="col-md-6 col-md-offset-3">
+                    <p>
+                        Due to the CAP theorem, a distributed system cannot be
+                        both fully consistent and always available. When a
+                        system has users, it is generally better to always be
+                        available and sacrifice some total consistency. This
+                        was most definitely the case for the scheduling system
+                        that I built for Nibbol; the veterinarians using the
+                        system have hectic schedules and can't afford to wait
+                        around for a lost internet connection or disabled
+                        server. One method for accomplishing this is by
+                        adopting an eventual consistency model. 
+                    </p>
+                    <p>
+                        Eventual consistency is a consistency model that
+                        guarantees all accesess to a piece of data will
+                        eventually return the last updated value but does not
+                        necessarily dictate when accesses will return the most
+                        recently updated value. Designing a data model that
+                        actually provides eventually consistent properties
+                        is error-prone and can have disasterous results if
+                        not implemented correctly (woops, there goes all my
+                        users business critical records). Thankfully, CRDTs
+                        provide a simple, mathematically provable approach
+                        to desgining a distributed, eventually consistent data
+                        type.
+                    </p>
+                    <p>
+                        CRDT stands for convergent or commutative replicated
+                        data type. A CRDT is a data representation that, under
+                        a few mathematical properties, ensures replicas
+                        (representations of the same data stored on multiple
+                        devices) have eventual consistency. For Nibbol, I used
+                        a state-based CRDT: a form of CRDT that converges by
+                        merging with other replicas under a set of rules to
+                        form an updated version which incorporates changes
+                        from both children.
+                    </p>
+                </div>
+                <div class="col-md-8">
+                </div>
+            </div>
+
+            <!-- Without any background in distributed systems research,
+                 I read through current CRDT research papers and several
+                 other foundational distributed systems papers to immerse
+                 myself in the prevailing theory. This was my first foray
+                 into understanding the implications of a fundamentally
+                 distributed system.
+              -->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Motivation</h3>
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        In order for Nibbol to display the veterinarian's
+                        available times for appointments, it had to know which
+                        times were already booked. The times which are booked
+                        by clients was the most frequently changing piece of
+                        data in the system; it was really important that the
+                        veterinarian was never restricted from modifying
+                        the booked times. 
+                    </p>
+                    <p>
+                        I chose to represent the available appointment times as
+                        CRDTs because of several observations I made. I realized
+                        that the veterinarians are used to using software that is
+                        hosted on-premise and so they expect fairly low latency
+                        in response to actions. On-premise software also has the
+                        benefit of not being disabled by a shaky internet
+                        connection. CRDTs perfectly counter these issues. 
+                    </p>
+                    <p>
+                        With a CRDT based system, one does not have to wait for
+                        the server to confirm an action: it can be applied
+                        instantly and synchronized later. As CRDTs don't have
+                        to wait for the server to perform useful work, users
+                        can still utilize the system when they experience
+                        complete internet loss.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3>Data model</h3>
+                    <p>
+                        Each blocked time was represented by three different
+                        properties: a start time, end time, and a recurrence
+                        rule. The start and end time both occured on the same
+                        day and indicated the time period that should be
+                        blocked. The reccurence rule was used to repeat blocked
+                        times to avoid repetitious input.
+                    </p>
+                    <p>
+                        In addition to those three properties, each block was
+                        outfitted with a unique id, a vector clock, two lamport
+                        clocks, and a boolean flag indicating deletion. One
+                        lamport clock was for the start and end time and one
+                        was for the reccurence rule.
+                    </p>
+                    <p>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Replica Topology</h3>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        As the veterinarians who accessed the application did
+                        so through a web client, the 
+                    </p>
+                </div>
+                <div class="col-md-8">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Data flow</h3>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        The lifecycle of an update to a CRDT backed data model
+                        is as follows:
+                        <ol>
+                            <li>User changes data property</li>
+                            <li>Client sends changed state to server</li>
+                            <li>
+                                Server receives state:
+                                <ol type="a">
+                                    <li>
+                                        Pushes the changed state onto the
+                                        update journal
+                                    </li>
+                                    <li>
+                                        Queues a notification to inform all clients
+                                    </li>
+                                </ol>
+                            </li>
+                            <li>
+                                API servers receive the update notification and
+                                check if any of their clients should be updated. 
+                            </li>
+                            <li>
+                                Servers which have open connections to clients
+                                that are listening on that channel send out the
+                                update.
+                            </li>
+                            <li>
+                                Scheduler server receives notification that there
+                                is a new entry in the update journal and about
+                                the update, and schedules a worker to sweep the
+                                update journal to persist the new changes to
+                                PostgreSQL for storage.
+                            </li>
+                            <li>
+                                After some interval, the scheduler fires off a
+                                notification for a worker to sweep the update queue.
+                            </li>
+                            <li>
+                                A worker receives the notification to sweep the
+                                update journal
+                            </li>
+                            <li>
+                                The worker grabs the most recent additions to
+                                the update queue and the canonical state stored
+                                in PostgreSQL.
+                            </li>
+                            <li>
+                                The worker combines all the updates and then
+                                stores them in PostgreSQL.
+                            </li>
+                            <li>
+                                If the worker finds that the update queue has not
+                                changed since the last sweep, it informs the
+                                scheduler to stop sending sweep notifications.
+                            </li>
+                        </ol>
+                    </p>
+                </div>
+
+                <div class="col-md-8">
+                    <img class="img-responsive" src="images/nibbol_arch_crdt.png" alt=""/>
+                </div>
+            </div>
+
+                        <!-- <div class="row">
+                 <div class="col-md-4">
+                     <h2>Backend Design</h2>
+                     <p>
+                         The Nibbol backend server provides two APIs: one for the
+                         consumer facing web app and one for the veterinarian
+                         facing scheduler. A client accesses these APIs by sending
+                         requests to www.nibbol.com/api/o/... for the consumer API
+                         or vet.nibbol.com/api/v/... for the veterinarian API.
+                     </p>
+                     <p>
+                        These APIs are provided on different domains so that the
+                        load from the consumer side and the veterinarian side
+                        can be decoupled from each other. I made this architecture
+                        choice because I figured veterinarians are relying on their
+                        end of the software to have a very high uptime. If the
+                        consumer side web tier becomes overloaded, the veterinarian
+                        users should not experience any slower response times
+                        unless the consumer demand is also affecting parts of
+                        the system which both APIs share, such as the shared
+                        storage services.
+                    </p>
+                    <p>
+                        When requests are sent to the web facing domain names, they
+                        first hit the load balancers in front of the web tier.
+                        These load balancers distribute requests across the
+                        stateless web tier to allow the service to easily scale
+                        up. 
+                    </p>
+                    <p>
+                        Inside the internal network, there are a collection of
+                        stateful services which house the data for the system,
+                        a tier of worker instances that handle tasks, and
+                        a singleton scheduler instance that fires off jobs
+                        at requested times and intervals.
+                    </p>
+                </div>
+
+                <div class="col-md-8">
+                    <img class="img-responsive" src="images/nibbol_arch_overview.png" alt=""/>
+                </div>
+            </div> -->
+
+            <!-- <div class="row">
+
+                <div class="col-md-6">
+                    <h2>Miscellaneous Features</h2>
+                    <ul>
+                        <li>
+                            <b>Admin Interface</b><br>
+                        </li>
+                        <li>
+                            <b>Reminders</b><br>
+                        </li>
+                        <li>
+                            <b>Google Spreadsheet Integration</b><br>
+                            The profiles of the individual vets needed to be
+                            updated as they are added into the system and
+                            their information changes. Instead of restricting
+                            database access to someone who is technical, I built
+                            a service that would push portions of a database into
+                            a shared google spreadsheet and then pull back changes
+                            into the database at some interval. This allowed
+                            non-technical employees to edit the data thus
+                            eliminating a bottleneck.
+                        </li>
+                    </ul>
+                </div>
+
+            </div> -->
+
+            <div class="row text-center">
+                <p class="col-lg-12">
+                    . . .
+                </p>
+            </div>
+
+            <!-- End Nibbol -->
+
+            <!-- /.row -->
+
+            <!-- Portfolio Item Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1>DrawD2D
+                        <small>Interactive reproduction tool</small>
+                    </h1>
+                </div>
+            </div>
+            <!-- /.row -->
+
+            <!-- Portfolio Item Row -->
+            <div class="row">
+
+                <div class="col-md-8">
+                    <img class="img-responsive" src="images/NukemD2D.png" alt="">
+                </div>
+
+                <div class="col-md-4">
+                    <h3>Summary</h3>
+                    <p>
+                        Direct2D is Microsoft's graphics API for hardware
+                        accelerated 2D rendering. During my summer internship
+                        on the Direct2D team, I designed and built an interactive
+                        test reproduction and diagnosis tool. 
+                    </p>
+                    <h3>Key Points</h3>
+                    <ul>
+                        <li>
+                            Decreases feedback loop by allowing on-figure
+                            modification of the underlying Direct2D API calls.
+                        </li>
+                        
+                        <li>
+                            Displays exactly what is being rendered in the scene
+                            and which resources exist on the GPU in side panels
+                            so the user always has full control.
+                        </li>
+
+                        <li>
+                            Setup code architecture so that new API versions
+                            could be supported easily.
+                        </li>
+
+                        <li>
+                            Replicates scene across multiple API implementations
+                            so the user can see discrepancies between them.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2>Design Principles</h2>
+                    <p>
+                        Going into the project, I developed four guiding design
+                        principles that I determined were most important to
+                        building a successful, lasting, and relevant final
+                        artifact. I believe it was vital that these design
+                        principles be laid out explicity so that whoever
+                        picked up the project after me could continue the spirit
+                        of the effort.
+                    </p>
+                    <p>
+                        The design principles I created for this project were:
+                        <ul>
+                            <li>Control</li>
+                            <li>Interactivity</li>
+                            <li>Reproducibility</li>
+                            <li>Maintainability</li>
+                        </ul>
+                    </p>
+                    <p>
+                        I discovered these design principles from consulting with
+                        the future users of the tool (the other developers on my
+                        team) and through several implementation iterations.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Reproducibility</h2>
+                    <p>
+                        As a reproduction and diagnosis tool, reproducibility is
+                        the most important principle. To make sure a test scene
+                        can be reproduced it is necessary that the program
+                        isolates its own resources from those of the test scene,
+                        exposes all of the resources that are part of the scene,
+                        allows saving and loading for sharing a setup, and supports
+                        exporting the scene as stand-alone code.
+                    </p>
+                    <h4>Resource Isolation</h4>
+                    <p>
+                        Resource isolation is the explicit separation of GPU
+                        resources utilized for drawing the tool itself and
+                        for constructing the test scene that is meant to
+                        display the visual artifact. I realized that I needed to
+                        make sure that any resources being used to display parts
+                        of the tool needed to be able to be unloaded from the
+                        GPU so there is no interference with the test case.
+                    </p>
+                    <h4>Resource Exposure</h4>
+                    <p>
+                        Deriving the minimal test case which manifests a bug
+                        is critical to allowing a swift fix to the offending
+                        code. A user can not be sure that he has the minimal test
+                        case unless he knows exactly what resources are being
+                        utilized in the scene. The user interface of the tool
+                        was thus designed so that every API call and resource
+                        created on the GPU is exposed.
+                    </p>
+                    <h4>Sharing</h4>
+                    <p>
+                        After developing the test case inside the tool it's
+                        important that the test setup can be shared with
+                        others, especially those who are responsible for
+                        writing the fix for the code. I built saving and loading 
+                        into the tool from the ground up so every element of
+                        the scene could be whisked to another developer. This
+                        is especially useful for attaching to bug tickets
+                        so the developer can see the issue and play around
+                        with it themselves.
+                    </p>
+                    <h4>Code Export</h4>
+                    <p>
+                        While saving and loading is very useful for sharing a
+                        test case, it limits the platforms the test case can
+                        run on to those which run the DrawD2D tool. A test case
+                        should be able to run on any platform that has a Direct2D
+                        implementation. To solve this, I built facilities for
+                        exporting the entire scene as Direct2D rendering code. 
+                    </p>
+                </div>
+                <div class="col-md-8">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2>Control</h2>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        I knew that the audience for this tool would be highly
+                        technical developers who have a propensity for code
+                        over using GUIs as GUIs tend to hide details from the
+                        user. I didn't want to build a tool that would sit
+                        unused because the users felt like they were
+                        restricted when using it. The control design principle
+                        addresses this by forcing every switch and knob to
+                        be exposed. Balancing UI design best practices with
+                        the need to expose the complexity of the Direct2D
+                        API proved an interesting challenge. 
+                    </p>
+                    <h4>GUI Segmentation</h4>
+                    <p>
+                        Direct2D is mainly composed of graphics resources, such
+                        as brushes, geometries, and bitmaps, and draw calls,
+                        such as rectangles, bezier curves, and text. Each of
+                        these elements had to be displayed somewhere in the UI.
+                        I devised the GUI segmentation to provide common areas
+                        for the different Direct2D elements so that the user
+                        could easily. This segmentation also proved to help
+                        guide future maintainers in placing new Direct2D
+                        features in the UI and thus preserve the coherency
+                        of the design.
+                    </p>
+                    <h4>Fine-grained Attributes</h4>
+                    <p>
+                        Every Direct2D draw call and resource has a plethora of
+                        options that can be altered. I created a framework that
+                        makes it easy to expose these attributes in the
+                        Resource dock and Rendering sidepanel (as visible in
+                        the figure to the right). This framework includes
+                        numerical inputs for numbers, dropdowns inputs for
+                        a list of options and more.
+                    </p>
+                    <h4></h4>
+                    <p></p>
+                </div>
+                <div class="col-md-8">
+                    <img class="img-responsive" src="images/NukemD2D_GUI_smaller.png" alt=""/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2>Interactivity</h2>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        The status quo before my tool for reproducing visual
+                        bugs consisted of either directly writing rendering
+                        code that could reproduce the issue or utilizing a
+                        dated tool which let the user load an xml file
+                        describing the scene. In both cases the user must
+                        context switch between editing the scene and viewing
+                        it. 
+                    </p>
+                    <h4>On-figure controls</h4>
+                    <p>
+                        While editing the individual attributes of a draw call
+                        allows for great accuracy, it can be quite tedious and
+                        forces the user to perform a binary search to narrow
+                        down on a bug. On-figure controls are an alternative
+                        that gives the user the ability to intuitively modify 
+                        the rendered result and see how these modifications
+                        For example, if the scene was rendering a bezier curve
+                        then the user could select the bezier curve and
+                        individually modify the control points instead of
+                        editing their X-Y attributes individually.
+                    </p>
+                    <h4>Instantaneous feedback</h4>
+                    <p>
+                        Closing the loop from when an edit is made and the
+                        effect is seen was a huge priority for this project.
+                        The smaller the feedback loop the faster one can
+                        diagnose and discover bugs. To that end, every
+                        adjustment of an attribute, be it via the fine-grained
+                        attributes on the side panels or on-figure
+                        modification, instantly and constantly updated the
+                        scene.
+                    </p>
+                    <h4></h4>
+                </div>
+                <div class="col-md-6 col-md-offset-1">
+                    <img class="img-responsive" src="images/D2D_onfigure.png" alt=""/>
+                    <p>An example of on-figure controls for a DrawBitmap call</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Maintainability</h2>
+                    <p>
+                        As the project was being built solely by myself, one of the
+                        driving goals was to ensure that it could provide long-term
+                        use once my internship had ended. New versions of
+                        Direct2D were inevitable and I knew updating DrawD2D to
+                        support those would be a low priority task.
+                    </p>
+                    <h4>Extension points</h4>
+                    <p>
+                        The first structural decision was to sufficiently abstract
+                        the extension points on the system to provide the simplest
+                        possible object interfaces for a maintainer, even at the
+                        cost of some implementation complexity elsewhere in the
+                        code. This would allow someone to jump in and add new
+                        features, significantly increasing the chances of
+                        maintenance in a hectic engineering organization.
+                    </p>
+                    <h4>Boilerplate generation</h4>
+                    <p>
+                        The second initiative was to modify an in-house
+                        code generation tool to export skeleton class
+                        implementations for new features that were added to
+                        Direct2D. This would reduce the boilerplate that would
+                        be needed to be implemented for each new Direct2D feature
+                        and allow a maintainer to focus only on the unique
+                        aspects of that specific feature.
+                    </p>
+                    <h4>Detailed guide</h4>
+                    <p>
+                        To support these two decisions I created a design document
+                        that detailed the exact steps one would need to do to add
+                        a new Direct2D feature, including running the code
+                        generator and the specifics of the extension points.
+                    </p>
+                </div>
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2>Scene Replication</h2>
+                </div>
+                <div class="col-md-4">
+                    <p>
+                        Although not one of the principles, scene replication was
+                        a feature I was particularly proud of thinking up and
+                        implementing.
+                    </p>
+                    <p>
+                        Direct2D is fundamentally about hardware acceleration
+                        of 2D graphics. Unfortunately that means that clever
+                        optimizations to decrease rendering cycles can introduce
+                        graphical artifacts in a specific implementation that only
+                        manifest in complicated end-user code. Fortunately, there
+                        is a reference implementation that, while extremely slow,
+                        always produces the correct scene.
+                    </p>
+                    <p>
+                        To verify that a specific scene has a visual artifact in
+                        it requires that a user compare it to the reference
+                        implementation. The trivial way to support this would be
+                        to add a dropdown box that listed all the Direct2D
+                        implementations available on the system. However, this
+                        requires the user to constantly flip back and forth to
+                        verify a bug and also defeats the advantage of the
+                        interactive components of the tool.
+                    </p>
+                    <p>
+                        As a solution, I setup the object interfaces and code
+                        architecture such that all implementations of the
+                        extensions points in the system did not hold onto Direct2D
+                        resources directly but instead handed them off to a
+                        resource manager that handled every part of their
+                        lifecycle. This allowed the system to support multiple
+                        simultaneous graphics implementations to display identical
+                        scenes next to each other by instantiating new instances
+                        of the Direct2D resources from the canonical object
+                        interfaces.
+                    </p>
+                </div>
+                <div class="col-md-8">
+                    <img class="img-responsive" src="images/D2D_replication.png" alt=""/>
+                    <p>An example of on-figure controls for a DrawBitmap call</p>
+                </div>
+            </div>
+        <!-- /.row -->
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <!-- /.row -->
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery Version 1.11.0 -->
+    <script src="js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
