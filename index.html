@@ -139,11 +139,11 @@
                         side code and parts of the javascript frontend.
                     </p>
                     <p>
-                        In this expose I am going to cover the details of the
-                        CRDT based scheduling system that I built. I will give
-                        a brief summary of what a CRDT is, how it is used in
-                        the scheduling system, what the network topology is,
-                        and how the data propagates through the system.
+                        I am going to cover the details of the CRDT based
+                        scheduling system that I built. I will give a brief
+                        summary of what a CRDT is, how it is used in the
+                        scheduling system, what the network topology is, and
+                        how the data propagates through the system.
                     </p>
                 </div>
 
@@ -183,13 +183,13 @@
                     <p>
                         CRDT stands for convergent or commutative replicated
                         data type. A CRDT is a data representation that, under
-                        a few mathematical properties, ensures replicas
-                        (representations of the same data stored on multiple
-                        devices) have eventual consistency. For Nibbol, I used
-                        a state-based CRDT: a form of CRDT that converges by
-                        merging with other replicas under a set of rules to
-                        form an updated version which incorporates changes
-                        from both children.
+                        associativity, commutativity, and idempotence, ensures
+                        replicas (representations of the same data stored on
+                        multiple devices) have eventual consistency. For
+                        Nibbol, I used a state-based CRDT: a form of CRDT that
+                        converges by merging with other replicas under a set of
+                        rules to form an updated version which incorporates
+                        changes from both CRDTs used in the merge. 
                     </p>
                 </div>
                 <div class="col-md-8">
@@ -212,14 +212,14 @@
                     <p>
                         In order for Nibbol to display the veterinarian's
                         available times for appointments, it had to know which
-                        times were already booked. The times which are booked
+                        times were already booked. The times which were booked
                         by clients was the most frequently changing piece of
                         data in the system; it was really important that the
                         veterinarian was never restricted from modifying
-                        the booked times. 
+                        the booked times.
                     </p>
                     <p>
-                        I chose to represent the available appointment times as
+                        I chose to represent the blocked appointment times as
                         CRDTs because of several observations I made. I realized
                         that the veterinarians are used to using software that is
                         hosted on-premise and so they expect fairly low latency
@@ -239,24 +239,45 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-md-6">
                     <h3>Data model</h3>
                     <p>
                         Each blocked time was represented by three different
-                        properties: a start time, end time, and a recurrence
-                        rule. The start and end time both occured on the same
+                        properties:
+                        <ul>
+                            <li>Start time</li>
+                            <li>End time</li>
+                            <li>Recurrence rule</li>
+                        </ul>
+                        The start and end time both occured on the same
                         day and indicated the time period that should be
                         blocked. The reccurence rule was used to repeat blocked
-                        times to avoid repetitious input.
+                        times to avoid repetitive input.
                     </p>
                     <p>
-                        In addition to those three properties, each block was
-                        outfitted with a unique id, a vector clock, two lamport
-                        clocks, and a boolean flag indicating deletion. One
-                        lamport clock was for the start and end time and one
-                        was for the reccurence rule.
+                        Those three properties are enough to represent a blocked
+                        time in a traditional client-server setup where requests
+                        to modify the data are sent to a single arbiter.
+                        However a CRDT backed representation requires a bit of
+                        scaffolding:
+                        <ul>
+                            <li>Unique ID</li>
+                            <li>Vector clock</li>
+                            <li>Lamport clock for the start and end time</li>
+                            <li>Lamport clock for the recurrence rule</li>
+                            <li>Flag for deletion</li>
+                        </ul>
+                        The unique id provides identity for each block. The
+                        vector clock is a way to track causal history and
+                        determine when a merge needs to be performed. The
+                        lamport clocks are used to resolve which property
+                        should be chosen when two blocks are being merged.
+                        The deletion flag is a means to effectively remove
+                        the block from affecting the application while still
+                        preserving its causal history.
                     </p>
                     <p>
+
                     </p>
                 </div>
             </div>
@@ -265,13 +286,43 @@
                 <div class="col-md-12">
                     <h3>Replica Topology</h3>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <p>
-                        As the veterinarians who accessed the application did
-                        so through a web client, the 
+                        The veterinarians accessed the system through a
+                        browser-based web client. This client connected to a
+                        centralized service hosted on Amazon's EC2, where the
+                        canonical state was located. Not all parts of the
+                        system could be represented as CRDTs as some required
+                        coordination or had a global invariant which could
+                        only be maintained through consensus. Thus the system
+                        was built with a hybrid approach: operations on
+                        CRDTs navigated a fairly inexpensive code path with a
+                        background task to perform collation of the CRDTs
+                        while operations on non-CRDTs followed a traditional
+                        client-server request response cycle.
+                    </p>
+                    <p>
+                        As CRDT operations can be applied in any order at any
+                        time, updates from clients did not need to be
+                        immediately merged with the most recent state in the
+                        datastore. Instead, the server acted as a dumb pipe
+                        which toke in client updates, stored them in a
+                        centralized in-memory update journal, and then sent
+                        them out to other clients hooked up to the same
+                        hospital without performing any processing of the data.
+                    </p>
+                    <p>
+                        The update processing is performed by grabbing the
+                        most recent CRDT state from the persistent database
+                        and any new client updates stored in the update
+                        journal then merging them together. The processing of
+                        the updates was performed at some configurable time
+                        later on a seperate server, letting the servers
+                        answering the web API requests avoid costly database
+                        queries during the request critical path.
                     </p>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-6">
                 </div>
             </div>
 
